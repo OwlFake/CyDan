@@ -1,12 +1,12 @@
 @font-face {
     font-family: 'Manrope';
-    src: url('manrope/Manrope-Regular.ttf') format('truetype');
+    src: url('assets/Manrope/Manrope-Regular.ttf') format('truetype');
     font-weight: normal;
 }
 
 @font-face {
     font-family: 'Manrope';
-    src: url('manrope/Manrope-Bold.ttf') format('truetype');
+    src: url('assets/Manrope/Manrope-Bold.ttf') format('truetype');
     font-weight: bold;
 }
 
