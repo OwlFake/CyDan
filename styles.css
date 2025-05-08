@@ -23,6 +23,7 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -37,12 +38,18 @@ body {
 }
 
 .message {
-    margin-bottom: 3rem;
+    text-align: left;
+    max-width: 800px;
+    margin: 0;
 }
 
 .message p {
     margin-bottom: 1.5rem;
     font-size: 1.1rem;
+}
+
+.message p:last-child {
+    margin-bottom: 0;
 }
 
 .code-input {
@@ -87,4 +94,78 @@ button {
 button:hover {
     background-color: #cccccc;
     transform: translateY(-2px);
-} 
+}
+
+.card-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: white;
+    color: #222;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-weight: bold;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.2s;
+}
+
+.card-link-btn:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px) scale(1.03);
+}
+
+.card-icon {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+}
+
+.poem {
+    text-align: center;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #ffffff;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.poem p {
+    text-align: center;
+}
+
+.quote {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border-left: 4px solid #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0 10px 10px 0;
+    font-style: italic;
+    color: #ffffff;
+    text-align: center;
+}
+
+.quote p {
+    margin: 0 !important;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 1.1em;
+}
+
+.letter-container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.letter-image {
+    max-width: 150px;
+    height: auto;
+}

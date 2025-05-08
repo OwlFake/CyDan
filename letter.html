@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter to Love</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            margin: 4rem auto;
+            padding: 2rem;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .message h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .message p {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+            text-align: justify;
+        }
+
+        .message p.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .poem p, .quote p {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .poem p.visible, .quote p.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message p:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .message p:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .message p:nth-child(4) {
+            animation-delay: 1.5s;
+        }
+
+        .message p:nth-child(5) {
+            animation-delay: 2s;
+        }
+
+        .message p:nth-child(6) {
+            animation-delay: 2.5s;
+        }
+
+        .message p:nth-child(7) {
+            animation-delay: 3s;
+        }
+
+        .message p:nth-child(8) {
+            animation-delay: 3.5s;
+        }
+
+        .message p:last-child {
+            animation-delay: 4s;
+        }
+
+        .return-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Manrope', Arial, sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .return-btn:hover {
+            background-color: #cccccc;
+            transform: translateY(-2px);
+        }
+
+        /* Floating Hearts Animation */
+        .floating-hearts {
+            position: fixed;
+            top: 40%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            transform: rotate(45deg);
+            opacity: 0;
+            animation: float 6s ease-in infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart:before {
+            left: -10px;
+        }
+
+        .heart:after {
+            top: -10px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: rotate(45deg) translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: rotate(45deg) translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .page-wrapper {
+                margin: 1rem;
+            }
+
+            .container {
+                margin: 1rem auto;
+                padding: 1rem;
+            }
+
+            .message p {
+                font-size: 0.95rem;
+            }
+
+            .return-btn {
+                position: static;
+                display: block;
+                width: 100%;
+                max-width: 200px;
+                margin: 2rem auto;
+                text-align: center;
+            }
+
+            .return-btn-container {
+                margin-top: auto;
+                padding: 1rem;
+            }
+
+            .heart {
+                width: 15px;
+                height: 15px;
+            }
+
+            .heart:before,
+            .heart:after {
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+        .poem p {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="message">
+                <div class="letter-container">
+                    <img src="assets/letter.png" alt="Letter" class="letter-image">
+                </div>
+                <h2>Love Letter</h2>
+                <p>Hi love! It's been a while since I've written you a letter. Plenty of things kasi that I wanna say is nasusulat ko nalang sa diary. So, I'll write you a good old poem instead, why? Well…</p>
+                <div class="poem">
+                    <p><span class="highlight">M</span>alimit mang magkita, di nagbabago sinta<br>
+                    <span class="highlight">A</span>ng pagmamahal ko sayong mas lumalalim pa.<br>
+                    <span class="highlight">H</span>indi man hawak ang iyong kamay, nadarama,<br>
+                    <span class="highlight">A</span>ng pulso ng pagibig nating dalawa, sapagkat<br>
+                    <span class="highlight">L</span>agi kang nasa isip, inaasam makasama.</p>
+                    <p><span class="highlight">K</span>ulang pa man ang aking kayang magawa<br>
+                    <span class="highlight">I</span>ingatan, pahahalagahan, paninidigan parin kita<br>
+                    <span class="highlight">T</span>ila teleserye, ako ang iyong leading man, ikaw ang bida<br>
+                    <span class="highlight">A</span>ng pamagat ay nakasaad sa unang mga letra.</p>
+                </div>
+                <p>It's just that, one of my anxieties is my inability to provide you with everything you need and want right now. Despite that, I'm doing my best to achieve more in this life so I can give you the life that you deserve. It just so happens kasi na my biggest fear is that I won't be able to give you the life that you wanted. So please be patient with me, my love. Despite being your boyfriend, I'm incredibly limited to what I can do to help you. I can't treat you to expensive dates, I can't get you flowers everytime we meet, and I can't buy you the things you might want, YET. emphasis on that yet part since I know that someday I'll be capable enough to provide you all of that. I'll be capable enough to treat you like an actual princess and I'll be capable enough to actually make your life easy. I'm not there yet but I swear that I will be, so I would love for you to be patient with me.</p>
+                <p>Do you know why I'm confident that I can do it? Well, you are the reason. I wanna be someone who can stand by your side that you can be fully proud of. I want you to experience the love that you deserve and I want it all to come from me. Greedy na kung greedy, but you inspire me and motivate me so much, and you make me feel love despite everything else. You've given me dreams, hopes, peace even though I'm drowning from pain, despair and chaos. You deserve someone better than me. That's why, I'll be that "someone better than me".</p>
+                <div class="quote">
+                    <p>"There is nothing noble in being superior to your fellow man; true nobility is being superior to your former self." <br>- Ernest Hemingway</p>
+                </div>
+                <p>I'll be a better person, a better man, a better partner to you. All because I love you so much, love love ko.</p>
+            </div>
+        </div>
+        <div class="return-btn-container">
+            <a href="index.html" class="return-btn">Return</a>
+        </div>
+    </div>
+    <div class="floating-hearts">
+        <!-- Hearts will be added dynamically via JavaScript -->
+    </div>
+    <script>
+        // JavaScript to add floating hearts
+        const heartsContainer = document.querySelector('.floating-hearts');
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        // JavaScript to make poem and quote paragraphs appear on scroll
+        const messageParagraphs = document.querySelectorAll('.message p');
+        const poemParagraphs = document.querySelectorAll('.poem p');
+        const quoteParagraphs = document.querySelectorAll('.quote p');
+
+        function checkVisibility() {
+            const paragraphs = [...messageParagraphs, ...poemParagraphs, ...quoteParagraphs];
+            paragraphs.forEach(paragraph => {
+                const rect = paragraph.getBoundingClientRect();
+                const isVisible = (rect.top <= window.innerHeight && rect.bottom >= 0);
+                if (isVisible) {
+                    paragraph.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkVisibility);
+        checkVisibility(); // Check visibility on page load
+    </script>
+</body>
+</html> 

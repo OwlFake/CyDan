@@ -12,14 +12,33 @@
             text-align: center;
         }
 
+        .card-link-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 1rem;
             }
-            
             .container {
                 padding: 1rem;
+            }
+            .container, .card-link-wrapper {
                 margin: 1rem;
+            }
+            .card-link-wrapper {
+                padding: 0rem 1rem 2rem;
+                justify-content: center;
+            }
+            .card-link-btn {
+                width: 100%;
             }
 
             .message p {
@@ -31,6 +50,7 @@
                 max-width: 280px;
             }
         }
+
         .last-paragraph {
             margin-bottom: 0 !important;
         }
@@ -50,6 +70,11 @@
                 <button type="submit">Submit</button>
             </form>
         </div>
+    </div>
+    <div class="card-link-wrapper">
+        <a href="https://drive.google.com/drive/folders/1SuxfRNjXGsh90ObSUdoTLnRsLp3iXyBG?usp=sharing" target="_blank" rel="noopener noreferrer" class="card-link-btn">
+            <img src="assets/shiny-card.png" alt="Shiny Card" class="card-icon" />
+        </a>
     </div>
 </body>
 </html> 
