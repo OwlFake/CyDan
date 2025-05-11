@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our First Month</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d, #1a1a1a);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            z-index: 1;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: #4a90e2;
+            top: 0;
+            height: 1527px;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+            height: 100px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+            color: #ffffff;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .timeline-date {
+            color: #4a90e2;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-right: 30px;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: #4a90e2;
+            border-radius: 50%;
+            position: absolute;
+            right: -8px;
+            top: 25px;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -8px;
+        }
+
+        .timeline-content p {
+            margin: 0;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+        }
+
+        .infinity-container {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            height: 80px;
+        }
+
+        .infinity {
+            font-size: 3em;
+            color: #4a90e2;
+            font-family: "Arial", sans-serif;
+            position: relative;
+            display: inline-block;
+        }
+
+        .infinity::before {
+            content: "∞";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #4a90e2, #87ceeb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 1.5rem;
+            user-select: none;
+            z-index: 0;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .return-btn-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .return-btn {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-family: 'Manrope', Arial, sans-serif;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .return-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .timeline-container::before {
+                left: 31px;
+            }
+            
+            .infinity::before {
+                left: 17px;
+                transform: translateX(-100%);
+            }
+            .infinity-container {
+                text-align: left;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 0px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-dot {
+                left: -8px;
+            }
+
+            .timeline-item:nth-child(even) .timeline-dot {
+                left: -8px;
+            }
+
+            .timeline-date {
+                padding-right: 0;
+            }
+
+            body {
+                padding: 10px;
+            }
+
+            .heart {
+                font-size: 1.2rem;
+            }
+
+            .infinity-container {
+                height: 60px;
+            }
+
+            .return-btn {
+                width: 100%;
+                text-align: center;
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-container">
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">January 1</div>
+                <div class="timeline-dot"></div>
+                <p>1st chat</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">January 15</div>
+                <div class="timeline-dot"></div>
+                <p>1st off</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">January 29</div>
+                <div class="timeline-dot"></div>
+                <p>1st meet up</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">February 14</div>
+                <div class="timeline-dot"></div>
+                <p>First Valentine Date</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">February 17</div>
+                <div class="timeline-dot"></div>
+                <p>First Birthdate</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">March 10</div>
+                <div class="timeline-dot"></div>
+                <p>First Job, First Ligaw</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">March 20</div>
+                <div class="timeline-dot"></div>
+                <p>Our first baby plushie</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">April 12</div>
+                <div class="timeline-dot"></div>
+                <p>1st Yes</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">April 15</div>
+                <div class="timeline-dot"></div>
+                <p>First Kiss</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">April 25</div>
+                <div class="timeline-dot"></div>
+                <p>You introduced me to your family</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-date">April 29</div>
+                <div class="timeline-dot"></div>
+                <p>First Birthdate as couple</p>
+            </div>
+        </div>
+
+        <div class="infinity-container">
+            <div class="infinity"></div>
+        </div>
+
+        <div class="message">
+            <p>Quite a lot happened throughout the more than 4 months that we've been together. I didn't actually keep track of them all kaya medyo kulang kulang ung timeline but they're a timeline of our first. Which seems fitting kasi first monthsary natin whahahhaha.</p>
+            <p>I love you so much love. I love how much we've grown in the few months that we've been with each other and now, naka first month na agad tayo. I'm not one for counting everything pero, I know lang na di matatapos to. Forever kaya to di mo ba alam? Whahhahha, Happy first monthsary my love. I love you so so so much!</p>
+        </div>
+    </div>
+
+    <div class="return-btn-container">
+        <a href="index.html" class="return-btn">Return</a>
+    </div>
+
+    <script>
+        // Add smooth reveal animation when scrolling
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.timeline-item').forEach((item) => {
+            item.style.opacity = 0;
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.5s ease-out';
+            observer.observe(item);
+        });
+
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+
+            // Remove heart after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 300);
+
+        // Create initial hearts
+        for(let i = 0; i < 5; i++) {
+            setTimeout(createHeart, i * 300);
+        }
+    </script>
+</body>
+</html> 
