@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Message</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            margin: 4rem auto;
+            padding: 2rem;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .heart-container {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .love-icon {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .message {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .message h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .message p {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+            text-align: justify;
+        }
+
+        .message p:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .message p:nth-child(3) {
+            animation-delay: 1.5s;
+        }
+
+        .message p:nth-child(4) {
+            animation-delay: 2.5s;
+        }
+
+        .message p:last-child {
+            animation-delay: 3.5s;
+        }
+
+        .return-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Manrope', Arial, sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .return-btn:hover {
+            background-color: #cccccc;
+            transform: translateY(-2px);
+        }
+
+        /* Floating Hearts Animation */
+        .floating-hearts {
+            position: fixed;
+            top: 40%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            transform: rotate(45deg);
+            opacity: 0;
+            animation: float 6s ease-in infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart:before {
+            left: -10px;
+        }
+
+        .heart:after {
+            top: -10px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: rotate(45deg) translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: rotate(45deg) translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .page-wrapper {
+                margin: 1rem;
+            }
+
+            .container {
+                margin: 1rem auto;
+                padding: 1rem;
+            }
+
+            .love-icon {
+                max-width: 100px;
+            }
+
+            .message p {
+                font-size: 0.95rem;
+            }
+
+            .return-btn {
+                position: static;
+                display: block;
+                width: 100%;
+                max-width: 200px;
+                margin: 2rem auto;
+                text-align: center;
+            }
+
+            .heart {
+                width: 15px;
+                height: 15px;
+            }
+
+            .heart:before,
+            .heart:after {
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+        .last-paragraph {
+            margin-bottom: 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="floating-hearts" id="hearts"></div>
+        <div class="container">
+            <div class="heart-container">
+                <img src="assets/love.png" alt="Love" class="love-icon">
+            </div>
+            <div class="message">
+                <h2>I love you, Love love ko!</h2>
+                <p>I keep on saying, "I love you" a lot, I just did, and next to that, I'll follow it up with "I love you more". The thing is, I always wanted to say more. I wanted you to know how when I'm with you, I feel like the world our aircon don't spit condensed water vapor. I feel like the neighbor's dog don't bark at all, I feel like I got everything figured out. I feel, at ease, like my heart is at peace. No minor inconveniences can stop me, and I can push through any problems along the way. All of that, compressed in a single phrase of "I love you" because otherwise, I wouldn't know how to say it all in an instant, without stuttering. If I did, my mind would give the most random stuff that would come to mind. Things like, "you make me feel like wala akong sugat", or " You make me feel like gumagapang ako". Whahahhaa.</p>
+                <p>Another thing I do is I say "I love you more" instead of "I love you too". I don't just say that kasi competitive ako, I say that kasi I dont want you to think na I feel all of those grandeur feelings only because you love me. I say it with a blatant ignorant of how much you love me and with great understanding of how much I love you. I love you even during days that you cannot give plenty of love. I love you even on days you don't love yourself. I love you even on days na di tayo okay. I love you even on days that I cant give plenty of love, I love you even on days that I dont love myself. I love you kahit okay tayo. There might be certain days someday, where I won't be able to give back a lot of love that you give me, but I most certainly will be giving you all the love I can give. For a simple metaphor, lets say you need 100 pesos from me but I can only give you 10 pesos kasi aun nalang ang pera ko, I'll give you my 10 pesos. So I hope na even on days na magkukulang ako sa pagmamahal ko sayo. Ibibigay ko parin lahat ng pagmamahal ko sayo. Anyways, I love you so much love love ko!!! ♥️♥️♥️</p>
+                <p class="last-paragraph">- Your Love</p>
+            </div>
+        </div>
+        <div class="return-btn-container">
+            <a href="index.html" class="return-btn">Return</a>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Random position
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            
+            document.getElementById('hearts').appendChild(heart);
+            
+            // Remove heart after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 300);
+        
+        // Create initial hearts
+        for(let i = 0; i < 5; i++) {
+            setTimeout(createHeart, i * 300);
+        }
+    </script>
+</body>
+</html> 

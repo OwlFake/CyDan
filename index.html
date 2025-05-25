@@ -65,7 +65,7 @@
             <p class="last-paragraph">I hope na wala ka nang takot po with websites made by me XD. I love you so much love love ko. I hope you appreciate this.</p>
         </div>
         <div class="code-input">
-            <form action="" method="GET" onsubmit="window.location.href = document.getElementById('code').value + '.html'; return false;">
+            <form action="" method="GET" onsubmit="handleCode(event)">
                 <input type="text" id="code" name="code" placeholder="Code Here" required><br><br>
                 <button type="submit">Submit</button>
             </form>
@@ -76,5 +76,17 @@
             <img src="assets/shiny-card.png" alt="Shiny Card" class="card-icon" />
         </a>
     </div>
+
+    <script>
+        function handleCode(event) {
+            event.preventDefault();
+            const code = document.getElementById('code').value.toLowerCase().replace(/\s+/g, '');
+            if (code === 'iloveyou') {
+                window.location.href = 'love.html';
+            } else {
+                window.location.href = code + '.html';
+            }
+        }
+    </script>
 </body>
 </html> 
