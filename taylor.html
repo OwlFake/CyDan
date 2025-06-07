@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taylor Swift Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            margin: 4rem auto;
+            padding: 1rem;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            width: 90vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            height: 400px;
+        }
+
+        .question-card, .answer-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .question-card.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .answer-card {
+            opacity: 0;
+            pointer-events: none;
+            justify-content: center;
+        }
+
+        .answer-card.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .score {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .question, .answer {
+            font-size: 2rem;
+            text-align: center;
+            padding: 0 1rem;
+            max-width: 90%;
+        }
+
+        .buttons {
+            display: none;
+            justify-content: center;
+            gap: 1rem;
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            padding: 0 2rem;
+        }
+
+        .buttons.show {
+            display: flex;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'Manrope', Arial, sans-serif;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .btn-correct {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-incorrect {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .results {
+            display: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .results h2 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .results p {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .results.show {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .return-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Manrope', Arial, sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .return-btn:hover {
+            background-color: #cccccc;
+            transform: translateY(-2px);
+        }
+
+        .start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .start-screen h2 {
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .start-screen p {
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .start-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Manrope', Arial, sans-serif;
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-container {
+                height: 350px;
+            }
+
+            .question, .answer {
+                font-size: 1.5rem;
+            }
+
+            .buttons {
+                flex-direction: row;
+                align-items: center;
+                bottom: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 80px;
+            }
+
+            .return-btn {
+                position: static;
+                display: block;
+                width: 100%;
+                max-width: 200px;
+                margin: 2rem auto;
+                text-align: center;
+            }
+
+            .answer {
+                font-size: 1.5rem;
+            }
+
+            .start-screen h2 {
+                font-size: 1.5rem;
+            }
+
+            .results h2 {
+                font-size: 1.5rem;
+            }
+
+            .results p {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="quiz-container">
+                <div class="start-screen" id="startScreen">
+                    <h2>Taylor Swift Song Title Quiz</h2>
+                    <p>Made this page, with 153 Taylor Swift songs. Hope you enjoy it. I love you so much!</p>
+                    <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+                </div>
+                <div class="question-card" style="display: none;">
+                    <div class="score">Score: <span id="questionScore">0</span>/20</div>
+                    <div class="question" id="question"></div>
+                </div>
+                <div class="answer-card" style="display: none;">
+                    <div class="score">Score: <span id="answerScore">0</span>/20</div>
+                    <div class="answer" id="answer"></div>
+                    <div class="buttons" id="buttons">
+                        <button class="btn btn-incorrect" onclick="handleAnswer(false)">Incorrect</button>
+                        <button class="btn btn-correct" onclick="handleAnswer(true)">Correct</button>
+                    </div>
+                </div>
+                <div class="results" id="results" style="display: none;">
+                    <h2>Quiz Complete!</h2>
+                    <p>Your final score: <span id="finalScore">0</span>/20</p>
+                    <button class="btn btn-correct" onclick="restartQuiz()">Play Again</button>
+                </div>
+            </div>
+        </div>
+        <a href="index.html" class="return-btn">Return</a>
+    </div>
+
+    <script>
+        const songs = [
+            { title: "...Ready For It?", hidden: "..._____ For It?" },
+            { title: "'Tis the Damn Season", hidden: "'Tis the _____ Season" },
+            { title: "A Place In This World", hidden: "A Place In _____ World" },
+            { title: "All Of The Girls You Loved Before", hidden: "All Of The Girls You _____ Before" },
+            { title: "All Too Well", hidden: "All Too _____" },
+            { title: "All You Had To Do Was Stay", hidden: "All You Had To Do Was _____" },
+            { title: "Anti-Hero", hidden: "_____-Hero" },
+            { title: "Back To December", hidden: "Back To _____" },
+            { title: "Bad Blood", hidden: "Bad _____" },
+            { title: "Beautiful Ghosts", hidden: "_____ Ghosts" },
+            { title: "Begin Again", hidden: "_____ Again" },
+            { title: "Better Than Revenge", hidden: "Better Than _____" },
+            { title: "Bigger Than The Whole Sky", hidden: "Bigger Than The _____ Sky" },
+            { title: "Blank Space", hidden: "_____ Space" },
+            { title: "But Daddy I Love Him", hidden: "But Daddy I _____ Him" },
+            { title: "Bye Bye Baby", hidden: "_____ Baby" },
+            { title: "Call It What You Want", hidden: "Call It _____ You Want" },
+            { title: "Castles Crumbling", hidden: "Castles _____" },
+            { title: "Champagne Problems", hidden: "_____ Problems" },
+            { title: "Christmas Tree Farm", hidden: "_____ Tree Farm" },
+            { title: "Clara Bow", hidden: "_____ Bow" },
+            { title: "Cold As You", hidden: "_____ As You" },
+            { title: "Coney Island", hidden: "_____ Island" },
+            { title: "Cornelia Street", hidden: "_____ Street" },
+            { title: "Cowboy Like Me", hidden: "_____ Like Me" },
+            { title: "Cruel Summer", hidden: "_____ Summer" },
+            { title: "Dancing With Our Hands Tied", hidden: "Dancing With Our _____ Tied" },
+            { title: "Dear John", hidden: "Dear _____" },
+            { title: "Death by a Thousand Cuts", hidden: "Death by a _____ Cuts" },
+            { title: "Don't Blame Me", hidden: "Don't _____ Me" },
+            { title: "Don't You", hidden: "_____ You" },
+            { title: "Down Bad", hidden: "_____ Bad" },
+            { title: "Electric Touch", hidden: "_____ Touch" },
+            { title: "End Game", hidden: "_____ Game" },
+            { title: "Everything Has Changed", hidden: "Everything Has _____" },
+            { title: "Eyes Open", hidden: "_____ Open" },
+            { title: "False God", hidden: "_____ God" },
+            { title: "Foolish One", hidden: "_____ One" },
+            { title: "Forever & Always", hidden: "_____ & Always" },
+            { title: "Forever Winter", hidden: "_____ Winter" },
+            { title: "Fresh Out The Slammer", hidden: "Fresh Out The _____" },
+            { title: "Getaway Car", hidden: "_____ Car" },
+            { title: "Gold Rush", hidden: "_____ Rush" },
+            { title: "Guilty As Sin?", hidden: "_____ As Sin?" },
+            { title: "Hey Stephen", hidden: "Hey _____" },
+            { title: "Hits Different", hidden: "_____ Different" },
+            { title: "Holy Ground", hidden: "_____ Ground" },
+            { title: "How You Get The Girl", hidden: "How You Get The _____" },
+            { title: "I Almost Do", hidden: "I _____ Do" },
+            { title: "I Bet You Think About Me", hidden: "I Bet You Think About _____" },
+            { title: "I Can Do It With A Broken Heart", hidden: "I Can Do It With A _____ Heart" },
+            { title: "I Can Fix Him (No Really I Can)", hidden: "I Can Fix _____ (No Really I Can)" },
+            { title: "I Can See You", hidden: "I Can See _____" },
+            { title: "I Did Something Bad", hidden: "I Did Something _____" },
+            { title: "I Don't Wanna Live Forever", hidden: "I Don't Wanna Live _____" },
+            { title: "I Forgot That You Existed", hidden: "I Forgot That You _____" },
+            { title: "I Hate It Here", hidden: "I _____ It Here" },
+            { title: "I Knew You Were Trouble", hidden: "I Knew You Were _____" },
+            { title: "I Know Places", hidden: "I Know _____" },
+            { title: "I Think He Knows", hidden: "I Think He _____" },
+            { title: "I Wish You Would", hidden: "I Wish You _____" },
+            { title: "If This Was a Movie", hidden: "If This Was a _____" },
+            { title: "Illicit Affairs", hidden: "_____ Affairs" },
+            { title: "Invisible String", hidden: "_____ String" },
+            { title: "Is It Over Now?", hidden: "Is It _____ Now?" },
+            { title: "It's Nice to Have a Friend", hidden: "It's Nice to Have a _____" },
+            { title: "It's Time To Go", hidden: "It's Time To _____" },
+            { title: "Jump Then Fall", hidden: "_____ Then Fall" },
+            { title: "King Of My Heart", hidden: "King Of My _____" },
+            { title: "Last Kiss", hidden: "_____ Kiss" },
+            { title: "Lavender Haze", hidden: "_____ Haze" },
+            { title: "London Boy", hidden: "_____ Boy" },
+            { title: "Long Live", hidden: "_____ Live" },
+            { title: "Long Story Short", hidden: "_____ Story Short" },
+            { title: "Look What You Made Me Do", hidden: "Look What You Made Me _____" },
+            { title: "Love Story", hidden: "_____ Story" },
+            { title: "Mad Woman", hidden: "_____ Woman" },
+            { title: "Mary's Song (Oh My My My)", hidden: "_____'s Song (Oh My My My)" },
+            { title: "Message In A Bottle", hidden: "Message In A _____" },
+            { title: "Midnight Rain", hidden: "_____ Rain" },
+            { title: "Miss Americana & the Heartbreak Prince", hidden: "Miss Americana & the _____ Prince" },
+            { title: "Mr. Perfectly Fine", hidden: "Mr. _____ Fine" },
+            { title: "My Boy Only Breaks His Favorite Toys", hidden: "My Boy Only Breaks His _____ Toys" },
+            { title: "My Tears Ricochet", hidden: "My Tears _____" },
+            { title: "Never Grow Up", hidden: "_____ Grow Up" },
+            { title: "New Romantics", hidden: "_____ Romantics" },
+            { title: "New Year's Day", hidden: "_____ Year's Day" },
+            { title: "No Body, No Crime", hidden: "No _____, No Crime" },
+            { title: "Nothing New", hidden: "_____ New" },
+            { title: "Now That We Don't Talk", hidden: "Now That We Don't _____" },
+            { title: "Only The Young", hidden: "Only The _____" },
+            { title: "Our Song", hidden: "_____ Song" },
+            { title: "Out Of The Woods", hidden: "Out Of The _____" },
+            { title: "Paper Rings", hidden: "_____ Rings" },
+            { title: "Picture To Burn", hidden: "Picture To _____" },
+            { title: "Right Where You Left Me", hidden: "Right Where You _____ Me" },
+            { title: "Sad Beautiful Tragic", hidden: "Sad _____ Tragic" },
+            { title: "Safe And Sound", hidden: "Safe And _____" },
+            { title: "Say Don't Go", hidden: "Say Don't _____" },
+            { title: "Shake It Off", hidden: "_____ It Off" },
+            { title: "Should've Said No", hidden: "Should've Said _____" },
+            { title: "Snow On The Beach", hidden: "Snow On The _____" },
+            { title: "So High School", hidden: "So _____ School" },
+            { title: "So It Goes...", hidden: "So It _____..." },
+            { title: "So Long, London", hidden: "So Long, _____" },
+            { title: "Soon You'll Get Better", hidden: "Soon You'll Get _____" },
+            { title: "Sparks Fly", hidden: "_____ Fly" },
+            { title: "Speak Now", hidden: "_____ Now" },
+            { title: "State of Grace", hidden: "State of _____" },
+            { title: "Stay Beautiful", hidden: "_____ Beautiful" },
+            { title: "Stay Stay Stay", hidden: "_____ Stay Stay" },
+            { title: "Suburban Legends", hidden: "_____ Legends" },
+            { title: "Sweet Nothing", hidden: "_____ Nothing" },
+            { title: "Sweeter Than Fiction", hidden: "Sweeter Than _____" },
+            { title: "Teardrops on My Guitar", hidden: "Teardrops on My _____" },
+            { title: "Tell Me Why", hidden: "Tell Me _____" },
+            { title: "thanK you aIMee", hidden: "thanK you _____" },
+            { title: "That's When", hidden: "_____ When" },
+            { title: "The Best Day", hidden: "The _____ Day" },
+            { title: "The Black Dog", hidden: "The _____ Dog" },
+            { title: "The Great War", hidden: "The _____ War" },
+            { title: "The Last Great American Dynasty", hidden: "The Last Great _____ Dynasty" },
+            { title: "The Last Time", hidden: "The Last _____" },
+            { title: "The Lucky One", hidden: "The _____ One" },
+            { title: "The Moment I Knew", hidden: "The Moment I _____" },
+            { title: "The Smallest Man Who Ever Lived", hidden: "The Smallest Man Who Ever _____" },
+            { title: "The Story of Us", hidden: "The _____ of Us" },
+            { title: "The Tortured Poets Department", hidden: "The Tortured _____ Department" },
+            { title: "The Very First Night", hidden: "The Very First _____" },
+            { title: "The Way I Loved You", hidden: "The Way I _____ You" },
+            { title: "This Is Me Trying", hidden: "This Is Me _____" },
+            { title: "This Is Why We Can't Have Nice Things", hidden: "This Is Why We Can't Have _____ Things" },
+            { title: "This Love", hidden: "_____ Love" },
+            { title: "Tied Together With A Smile", hidden: "Tied Together With A _____" },
+            { title: "Tim McGraw", hidden: "_____ McGraw" },
+            { title: "Today Was a Fairytale", hidden: "Today Was a _____" },
+            { title: "Tolerate It", hidden: "_____ It" },
+            { title: "Vigilante S-- t", hidden: "_____ S-- t" },
+            { title: "We Are Never Ever Getting Back Together", hidden: "We Are Never Ever Getting _____ Together" },
+            { title: "We Were Happy", hidden: "We Were _____" },
+            { title: "Welcome to New York", hidden: "Welcome to _____ York" },
+            { title: "When Emma Falls In Love", hidden: "When Emma Falls In _____" },
+            { title: "White Horse", hidden: "_____ Horse" },
+            { title: "Who's Afraid Of Little Old Me?", hidden: "Who's Afraid Of _____ Old Me?" },
+            { title: "Wildest Dreams", hidden: "_____ Dreams" },
+            { title: "Would've, Could've, Should've", hidden: "Would've, _____, Should've" },
+            { title: "You All Over Me", hidden: "You All Over _____" },
+            { title: "You Are In Love", hidden: "You Are In _____" },
+            { title: "You Belong With Me", hidden: "You _____ With Me" },
+            { title: "You Need To Calm Down", hidden: "You Need To _____ Down" },
+            { title: "You're Losing Me", hidden: "You're _____ Me" },
+            { title: "You're Not Sorry", hidden: "You're Not _____" },
+            { title: "You're On Your Own, Kid", hidden: "You're On Your Own, _____" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let shuffledSongs = [];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.querySelector('.question-card').style.display = 'flex';
+            shuffledSongs = shuffleArray([...songs]).slice(0, 20);
+            currentQuestion = 0;
+            score = 0;
+            updateScore();
+            showQuestion();
+        }
+
+        function updateScore() {
+            document.getElementById('questionScore').textContent = score;
+            document.getElementById('answerScore').textContent = score;
+        }
+
+        function showQuestion() {
+            const questionCard = document.querySelector('.question-card');
+            const answerCard = document.querySelector('.answer-card');
+            const question = document.getElementById('question');
+            const answer = document.getElementById('answer');
+            const buttons = document.getElementById('buttons');
+
+            // Reset the state
+            questionCard.classList.remove('hide');
+            answerCard.classList.remove('show');
+            buttons.classList.remove('show');
+            
+            // Set new content
+            question.textContent = shuffledSongs[currentQuestion].hidden;
+            answer.textContent = shuffledSongs[currentQuestion].title;
+
+            // Add click event to question card
+            questionCard.onclick = function() {
+                questionCard.classList.add('hide');
+                answerCard.style.display = 'flex';
+                answerCard.classList.add('show');
+                buttons.classList.add('show');
+            };
+        }
+
+        function handleAnswer(isCorrect) {
+            if (isCorrect) {
+                score++;
+                updateScore();
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < 20) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('results').style.display = 'flex';
+            document.querySelector('.question-card').style.display = 'none';
+            document.querySelector('.answer-card').style.display = 'none';
+        }
+
+        function restartQuiz() {
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'flex';
+            document.querySelector('.question-card').style.display = 'none';
+            document.querySelector('.answer-card').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 
