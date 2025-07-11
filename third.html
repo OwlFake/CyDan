@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Third Letter</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            margin: 4rem auto;
+            padding: 2rem;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .letter-container {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .letter-icon {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .message {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .message h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .message p {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+            text-align: justify;
+        }
+
+        .message p:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .message p:nth-child(3) {
+            animation-delay: 1.5s;
+        }
+
+        .message p:nth-child(4) {
+            animation-delay: 2.5s;
+        }
+
+        .message p:nth-child(5) {
+            animation-delay: 3.5s;
+        }
+
+        .message p:nth-child(6) {
+            animation-delay: 4.5s;
+        }
+
+        .message p:nth-child(7) {
+            animation-delay: 5.5s;
+        }
+
+        .return-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Manrope', Arial, sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .return-btn:hover {
+            background-color: #cccccc;
+            transform: translateY(-2px);
+        }
+
+        /* Floating Hearts Animation */
+        .floating-hearts {
+            position: fixed;
+            top: 40%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            transform: rotate(45deg);
+            opacity: 0;
+            animation: float 6s ease-in infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart:before {
+            left: -10px;
+        }
+
+        .heart:after {
+            top: -10px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: rotate(45deg) translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: rotate(45deg) translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .page-wrapper {
+                margin: 1rem;
+            }
+
+            .container {
+                margin: 1rem auto;
+                padding: 1rem;
+            }
+
+            .letter-icon {
+                max-width: 100px;
+            }
+
+            .message p {
+                font-size: 0.95rem;
+            }
+
+            .return-btn {
+                position: static;
+                display: block;
+                width: 100%;
+                max-width: 200px;
+                margin: 2rem auto;
+                text-align: center;
+            }
+
+            .heart {
+                width: 15px;
+                height: 15px;
+            }
+
+            .heart:before,
+            .heart:after {
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+        .last-paragraph {
+            margin-bottom: 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="floating-hearts" id="hearts"></div>
+        <div class="container">
+            <div class="letter-container">
+                <img src="assets/threehearts.png" alt="Letter" class="letter-icon">
+            </div>
+            <div class="message">
+                <h2>It’s Been a Long Week…</h2>
+                <p>It’s been quite a long time since I’ve written here… I’ve had a long week and it was incredibly tiring. I’ve experienced anxiety, and frustrations like never before, that ghost of my past, that should’ve given me a latin honor. I’ve always had regrets like this, small mistakes I should've just gone with that I ran from then I’ll find out later the big consequences of such small action. But throughout this week, you were with me everyday. You helped me face the consequences of my action and helped me feel better about myself for all the sadness I’ve felt. You have no idea just how much helpful you’ve been to me not just for this week, but for all the time we’ve been together.</p>
+                <p>You’ve given me graduation gifts. You really don’t have to but you did give me gifts, not just 1 but 4! (That’s 4 with exclamation mark and not 4 factorials which would amount to 24) They were all amazing. I’ve enjoyed them all, specifically the fidget spinner you gave me. That gift was the best one I’ve ever had. Truth is, back when I wanted to buy myself some kind of fidget toys, I’ve avoided fidget spinner from my options since I wanted something that would require more skill. But the thing is, the fidget spinner you gifted me is a lot more helpful. Especially during the graduation when everything was stressing me out. It also helped me become a lot more patient, because I should save more phone batteries due to my phone getting drained hard. I had a good distraction, and it wasn't simply just a distraction to me. Because this time it actually meant something, it reminds me of how much you love me. </p>
+                <p>I would love to give emphasis to our date 2 days ago. Which is honestly the best date we had throughout our 3 months of relationship, it tops everything off easily. Everything went amazing and it exceeded our expectations even more. We managed to do a lot. We’ve had a lot of fun eating your dad’s food, We had a lot of fun reviewing together. We’ve had a lot of fun watching young sheldon, and we’ve had certain cuddle moments that are honestly really amazing. We’ve eaten some amazing food, we walked back home and got your parents some stuff as a thank you for today. Heck they were very supportive of us the entire time. It was really amazing. It’s the best progress we’ve had. I learned quite a lot and I will learn a lot more from you. Thank you love for loving me at your best and for allowing me the opportunity to love you back.</p>
+                <p>You were amazing, even though it has been very tough for you, you stayed by my side through it all. I couldn’t for the love of God explain just how much you mean to me and just how much I love you so much. I would love to bring all that back to you my love. I swear, like I’ve always sworn to you that I will always love you, and I will always stay by your side, and I will always do my best to help you in any way I can. This week was a rollercoaster ride for me and you got in to ensure I have a safe trip. Anyways, Happy Third Monthsary my love, I love you so much, I’ll always love you!!!</p>
+            </div>
+        </div>
+        <div class="return-btn-container">
+            <a href="index.html" class="return-btn">Return</a>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Random position
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            
+            document.getElementById('hearts').appendChild(heart);
+            
+            // Remove heart after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 300);
+        
+        // Create initial hearts
+        for(let i = 0; i < 5; i++) {
+            setTimeout(createHeart, i * 300);
+        }
+    </script>
+</body>
+</html> 
