@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Cards</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-wrapper {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .envelope-container {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 20;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .envelope-container:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .envelope-container.opened {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .envelope-icon {
+            max-width: 200px;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .envelope-label {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .cards-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 864px;
+            height: 540px;
+            display: none;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .cards-container.active {
+            display: block;
+        }
+
+        .card {
+            position: absolute;
+            width: 864px;
+            height: 540px;
+            background: transparent;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 0.6s ease,
+                        z-index 0.3s;
+            transform-origin: center center;
+            overflow: hidden;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .card-content {
+            padding: 0;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .card-text-content {
+            padding: 3rem;
+            text-align: left;
+            color: #1a1a1a;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, #ffffff, #f8f8f8);
+            border-radius: 12px;
+            overflow-y: auto;
+        }
+
+        .card-text-content p {
+            font-size: 1.8rem;
+            line-height: 1.8;
+            color: #333;
+            margin: 0;
+        }
+
+        /* Click zones for left and right sides */
+        .click-zone {
+            position: fixed;
+            top: 0;
+            width: 50%;
+            height: 100vh;
+            z-index: 12;
+            cursor: pointer;
+            display: none;
+            background: transparent;
+            pointer-events: none;
+        }
+
+        .click-zone.active {
+            display: block;
+            pointer-events: auto;
+        }
+
+        .click-zone-left {
+            left: 0;
+        }
+
+        .click-zone-right {
+            right: 0;
+        }
+
+        /* Card moved to right */
+        .card.moved-right {
+            transform: translate(calc(50vw + 600px), calc(-50% - 200px)) rotate(45deg) scale(0.8) !important;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Cards returning to center */
+        .card.returning {
+            transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(0deg) scale(1) !important;
+            opacity: 1;
+        }
+
+
+        .return-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Manrope', Arial, sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        @media (max-width: 1024px) {
+            .card {
+                width: 720px;
+                height: 450px;
+            }
+
+            .cards-container {
+                width: 720px;
+                height: 450px;
+            }
+        }
+
+        .return-btn:hover {
+            background-color: #cccccc;
+            transform: translateY(-2px);
+        }
+
+        /* Snowflakes animation */
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: #ffffff;
+            font-size: 1em;
+            font-family: Arial;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            animation: snowfall linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-100px) translateX(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-wrapper {
+                min-height: 100vh;
+            }
+
+            .card {
+                width: 85vw;
+                height: calc(85vw * 0.625);
+                max-width: 500px;
+                max-height: 312px;
+            }
+
+            .cards-container {
+                width: 85vw;
+                height: calc(85vw * 0.625);
+                max-width: 500px;
+                max-height: 312px;
+            }
+
+            .envelope-icon {
+                max-width: 150px;
+            }
+
+            .envelope-label {
+                font-size: 1rem;
+            }
+
+            .card-content {
+                padding: 0;
+            }
+
+            .card-text-content {
+                padding: 1.5rem;
+            }
+
+            .card-text-content p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            .return-btn {
+                position: fixed;
+                bottom: 1rem;
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+                max-width: 120px;
+                margin: 0;
+                border-radius: 20px;
+                padding: 8px 16px;
+                font-size: 0.85rem;
+                opacity: 0.7;
+                background-color: rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 90vw;
+                height: calc(90vw * 0.625);
+                max-width: 400px;
+                max-height: 250px;
+            }
+
+            .cards-container {
+                width: 90vw;
+                height: calc(90vw * 0.625);
+                max-width: 400px;
+                max-height: 250px;
+            }
+
+            .envelope-icon {
+                max-width: 120px;
+            }
+
+            .card-text-content {
+                padding: 1rem;
+            }
+
+            .card-text-content p {
+                font-size: 0.85rem;
+            }
+
+            .return-btn {
+                bottom: 0.75rem;
+                max-width: 100px;
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="snowflakes" id="snowflakes"></div>
+        <div class="envelope-container" id="envelope">
+            <img src="assets/letter.png" alt="Envelope" class="envelope-icon">
+            <div class="envelope-label">Click to open</div>
+        </div>
+        
+        <div class="cards-container" id="cardsContainer">
+            <!-- Cards will be added dynamically -->
+        </div>
+        <div class="click-zone click-zone-left" id="clickZoneLeft"></div>
+        <div class="click-zone click-zone-right" id="clickZoneRight"></div>
+        <a href="index.html" class="return-btn">Return</a>
+        <audio id="backgroundMusic" loop>
+            <source src="assets/music.mp3" type="audio/mpeg">
+            <source src="assets/music.ogg" type="audio/ogg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        // Card data - images and text messages
+        const cardData = [
+            { type: 'image', src: 'assets/cards/January.png' },
+            { type: 'image', src: 'assets/cards/February.png' },
+            { type: 'image', src: 'assets/cards/March.png' },
+            { type: 'image', src: 'assets/cards/April.png' },
+            { type: 'image', src: 'assets/cards/May.png' },
+            { type: 'image', src: 'assets/cards/June.png' },
+            { type: 'image', src: 'assets/cards/July.png' },
+            { type: 'image', src: 'assets/cards/August.png' },
+            { type: 'image', src: 'assets/cards/September.png' },
+            { type: 'image', src: 'assets/cards/October.png' },
+            { type: 'image', src: 'assets/cards/November.png' },
+            { type: 'image', src: 'assets/cards/December.png' },
+            { type: 'image', src: 'assets/Cards/Extra.png' }
+        ];
+
+        const envelope = document.getElementById('envelope');
+        const cardsContainer = document.getElementById('cardsContainer');
+        const clickZoneLeft = document.getElementById('clickZoneLeft');
+        const clickZoneRight = document.getElementById('clickZoneRight');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        let cards = [];
+        let currentCardIndex = 0;
+        let cardsCreated = false;
+
+        // Create snowflakes
+        function createSnowflakes() {
+            const snowflakesContainer = document.getElementById('snowflakes');
+            const snowflakeSymbols = ['❄', '❅', '❆'];
+            
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.textContent = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.animationDelay = Math.random() * 2 + 's';
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+
+        // Create cards
+        function createCards() {
+            if (cardsCreated) return;
+            cardsCreated = true;
+
+            cardData.forEach((cardItem, index) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.style.zIndex = cardData.length - index;
+                
+                const cardContent = document.createElement('div');
+                cardContent.classList.add('card-content');
+                
+                if (cardItem.type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = cardItem.src;
+                    img.alt = `Card ${index + 1}`;
+                    cardContent.appendChild(img);
+                } else if (cardItem.type === 'text') {
+                    const textContent = document.createElement('div');
+                    textContent.classList.add('card-text-content');
+                    const message = document.createElement('p');
+                    message.textContent = cardItem.message;
+                    textContent.appendChild(message);
+                    cardContent.appendChild(textContent);
+                }
+                
+                card.appendChild(cardContent);
+                
+                cardsContainer.appendChild(card);
+                cards.push(card);
+            });
+
+            // Show click zones
+            clickZoneLeft.classList.add('active');
+            clickZoneRight.classList.add('active');
+            
+            // Initialize card positions
+            updateCardStack();
+        }
+
+        // Move top card to the right
+        function moveCardRight() {
+            if (currentCardIndex >= cards.length) {
+                // All cards have been moved, reset
+                resetCards();
+                return;
+            }
+
+            const currentCard = cards[currentCardIndex];
+            currentCard.classList.add('moved-right');
+            currentCardIndex++;
+
+            // Update z-index of remaining cards
+            updateCardStack();
+        }
+
+        // Reset all cards back to center
+        function resetCards() {
+            cards.forEach((card, index) => {
+                card.classList.remove('moved-right');
+                card.classList.add('returning');
+                
+                setTimeout(() => {
+                    card.classList.remove('returning');
+                }, 600);
+            });
+            
+            currentCardIndex = 0;
+            updateCardStack();
+        }
+
+        // Update card stack z-index and positioning
+        function updateCardStack() {
+            cards.forEach((card, index) => {
+                if (index < currentCardIndex) {
+                    // Card has been moved
+                    return;
+                }
+                
+                const stackIndex = index - currentCardIndex;
+                card.style.zIndex = cards.length - stackIndex;
+                
+                if (stackIndex === 0) {
+                    card.style.transform = 'translate(-50%, -50%) translateX(0) translateY(0) rotate(0deg) scale(1)';
+                } else {
+                    const offset = stackIndex * 12;
+                    const rotation = stackIndex * -2;
+                    const scale = 1 - (stackIndex * 0.02);
+                    card.style.transform = `translate(-50%, -50%) translateX(-${offset}px) translateY(${offset}px) rotate(${rotation}deg) scale(${scale})`;
+                }
+            });
+        }
+
+        // Move card back (left)
+        function moveCardLeft() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                const card = cards[currentCardIndex];
+                card.classList.remove('moved-right');
+                card.classList.add('returning');
+                
+                setTimeout(() => {
+                    card.classList.remove('returning');
+                }, 600);
+                
+                updateCardStack();
+            }
+        }
+
+        // Handle envelope click
+        envelope.addEventListener('click', () => {
+            envelope.classList.add('opened');
+            
+            // Play background music
+            if (backgroundMusic) {
+                backgroundMusic.volume = 0.5; // Set volume to 50%
+                backgroundMusic.play().catch(error => {
+                    console.log('Audio play failed:', error);
+                    // Some browsers may block autoplay, this is expected
+                });
+            }
+            
+            setTimeout(() => {
+                createCards();
+                cardsContainer.classList.add('active');
+            }, 500);
+        });
+
+        // Handle click zones
+        clickZoneLeft.addEventListener('click', (e) => {
+            if (cardsCreated) {
+                e.stopPropagation();
+                moveCardLeft();
+            }
+        });
+
+        clickZoneRight.addEventListener('click', (e) => {
+            if (cardsCreated) {
+                e.stopPropagation();
+                moveCardRight();
+            }
+        });
+
+        // Initialize snowflakes
+        createSnowflakes();
+    </script>
+</body>
+</html>
