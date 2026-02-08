@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganda</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Reading progress bar */
+        .progress-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            z-index: 10;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #c9a86c, #e8c9a0);
+            transition: width 0.12s ease-out;
+        }
+
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(201, 168, 108, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(232, 201, 160, 0.08), transparent),
+                radial-gradient(ellipse 50% 30% at 20% 80%, rgba(201, 168, 108, 0.06), transparent);
+        }
+
+        .container {
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            max-width: 720px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .essay-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .essay-hero {
+            margin-bottom: 2rem;
+        }
+        .essay-hero img {
+            max-width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .essay-title {
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: bold;
+            letter-spacing: 0.02em;
+            opacity: 0;
+            transform: translateY(24px);
+            animation: reveal 1s ease forwards;
+        }
+        .essay-subtitle {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.75);
+            opacity: 0;
+            transform: translateY(16px);
+            animation: reveal 0.8s ease 0.3s forwards;
+        }
+
+        .essay-body {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .essay-block {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .essay-block.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .essay-block p {
+            line-height: 1.9;
+            text-align: justify;
+            font-size: 1.05rem;
+            margin: 0;
+        }
+
+        .pull-quote {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            margin: 1rem 0;
+            opacity: 0;
+            transform: translateY(24px) scale(0.98);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .pull-quote.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .pull-quote .quote-text {
+            font-size: clamp(1.1rem, 3vw, 1.35rem);
+            line-height: 1.7;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        .pull-quote .quote-line {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(201, 168, 108, 0.8), transparent);
+            margin: 1.25rem auto 0;
+        }
+
+        .return-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Manrope', Arial, sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        .return-btn:hover {
+            background-color: #e8e8e8;
+            transform: translateY(-2px);
+        }
+
+        @keyframes reveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Soft sparkles (optional ambient) */
+        .sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(232, 201, 160, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: sparkleFade 4s ease-in-out infinite;
+        }
+        @keyframes sparkleFade {
+            0%, 100% { opacity: 0; transform: scale(0.8); }
+            50% { opacity: 0.8; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .container {
+                padding: 3rem 1.25rem 5rem;
+            }
+            .essay-header { margin-bottom: 3rem; }
+            .essay-hero img { max-width: 100px; }
+            .essay-body { gap: 2rem; }
+            .essay-block p { font-size: 0.98rem; }
+            .pull-quote { padding: 2rem 1rem; }
+            .return-btn {
+                position: static;
+                display: block;
+                width: 100%;
+                max-width: 200px;
+                margin: 2rem auto;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-wrap" aria-hidden="true">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="ambient-bg"></div>
+    <div id="sparkles"></div>
+
+    <div class="page-wrapper">
+        <div class="container">
+            <header class="essay-header">
+                <div class="essay-hero">
+                    <img src="assets/GandaFlower.png" alt="">
+                </div>
+                <h1 class="essay-title">Ganda</h1>
+            </header>
+
+            <article class="essay-body">
+                <section class="essay-block" data-reveal>
+                    <p>Sa unang sandaling nakita kita, tuluyang binigo ako ng mga salita. Para bang biglang sinarhan ng isip ko ang sarili nitong pinto, at naiwan ako sa labas, walang dalang kahit isang maayos na pangungusap. Buong buhay akong nag-ipon ng mga salita para sa mga ganitong pagkakataon, para sa mga sandaling akala ko'y handa na ako. Pero nang nandoon ka na, nang nasa harapan na kita, biglang nawala ang lahat. Wala akong nasabi. Wala akong nagawa. Para akong estatwang iniwan sa gitna ng oras, nakatayo habang unti-unting bumabagal ang tik at tak ng orasan hanggang sa tuluyan na itong tumigil. Nakakatulala. Nakakahilo. Parang hindi kayang unawain ng isip ko ang mismong nakikita ng mga mata ko.</p>
+                </section>
+
+                <section class="essay-block" data-reveal>
+                    <p>Hindi lang ako ang tila naapektuhan ng presensya mo. Pati ang paligid, pati ang hangin, nagbago. Parang naging mas mabigat ang bawat hinga, pero kasabay noon ay mas naging maliwanag ang lahat, na para bang may ilaw na hindi ko matukoy kung saan nanggagaling. Pakiramdam ko, pati ang mundo ay napapatingin sa iyo. Ang unang dumaan sa isip ko ay hindi nga maituturing na malinaw na ideya, kundi isang bigla at matinding pagkamangha. Napatanong ako sa sarili ko kung nananaginip ba ako o kung masyado lang akong nadadala ng imahinasyon ko. Hindi ko halos matanggap na ang isang tulad mo ay totoo, at higit pa roon, na naroon ka mismo sa harap ko. Parang ang posibilidad na iyon ay masyadong malaki para agad tanggapin ng isip ko, kaya nanatili akong nakatayo, tahimik, at hindi sigurado kung ano ang mas totoo, ang nakikita ko o ang nararamdaman ko.</p>
+                </section>
+
+                <section class="essay-block" data-reveal>
+                    <p>Hindi ko talaga alam kung ano ang dapat kong gawin o sabihin. Lahat ng mga alam kong normal na reaksyon ay biglang parang kulang, parang masyadong maliit para sa bigat ng sandaling iyon. Paikot-ikot ang isip ko, sinusubukang pangalanan ang emosyon, sinusubukang unawain kung ano ba ang nangyayari sa loob ko. Pero habang mas pinipilit kong ayusin ang mga iniisip ko, mas lalo silang nagkakagulo. Para itong pagsubok na kontrolin ang sariling paghinga. Kapag mas iniisip mo kung paano ito gagawin, mas lalo kang nahihirapang huminga nang natural.</p>
+                </section>
+
+                <div class="pull-quote" data-reveal>
+                    <p class="quote-text">"Maganda ka sa paraang hindi na kailangan ng pahintulot ng kahit sino."</p>
+                    <div class="quote-line"></div>
+                </div>
+
+                <section class="essay-block" data-reveal>
+                    <p>Hindi ito lang dahil sa mukha mo, kahit na sapat na iyon para pahintuin ang buong kwarto at patigilin ang kahit sinong makakita. Nasa kilos mo rin ito, sa paraan ng pagtayo mo, sa bawat hakbang, sa bawat galaw na parang walang anumang bigat o pag-aalinlangan. May natural na kumpiyansa sa iyo, hindi maingay, hindi pilit, pero ramdam. Napapaisip ako kung gaano kabihira makakita ng isang taong hindi na kailangang mag-effort para maging kapansin-pansin, at gayon pa man, nagiging sentro ng lahat. Hindi mapakali ang mga mata ko kapag wala ka sa tanaw ko, na para bang may sarili silang desisyon na palaging hanapin ka, kahit hindi ko sila utusan.</p>
+                </section>
+
+                <section class="essay-block" data-reveal>
+                    <p>Mas lalo kong napansin ang maliliit na detalye na sa iba ay baka hindi ko man lang pansinin. Ang bahagyang kunot sa pagitan ng iyong kilay kapag seryoso ka. Ang nunal sa ilong mo na parang maliit na marka na mas lalong nagpapakilala sa iyo. Ang linya ng labi mo kapag hindi ka ngumingiti, at ang mataray mong tingin na imbes na manakot ay mas lalo pang nakakahatak ng pansin. Pati ang paraan ng pagdapo ng liwanag sa mukha mo, parang may sariling intensyon, parang may gustong ipakita na hindi ko maipaliwanag sa salita. At saan ka man tumingin, parang kusang sumusunod ang atensyon ng mga tao, hindi dahil hinihingi mo ito, kundi dahil may kung anong puwersang natural na humihila sa kanila patungo sa iyo.</p>
+                </section>
+
+                <section class="essay-block" data-reveal>
+                    <p>May sandaling pakiramdam ko, parang ang mundo ay bahagyang umayon sa presensya mo, na para bang ikaw ang sentro at kaming lahat ay nasa paligid mo lamang. Nakakahumaling ang pakiramdam, hindi sa paraang maingay o magulo, kundi sa paraang tahimik pero malalim. Para itong pagtayo sa dalampasigan at bigla mong napagtanto kung gaano kalawak ang karagatan. Hindi mo kayang sukatin. Hindi mo kayang angkinin. Ang kaya mo lang ay tumayo roon, huminga, at tanggapin na may mga bagay talagang mas malaki kaysa sa kaya mong unawain. At sa sandaling iyon, isa ka sa mga bagay na iyon para sa akin.</p>
+                </section>
+            </article>
+        </div>
+
+        <div class="return-btn-container">
+            <a href="index.html" class="return-btn">Return</a>
+        </div>
+    </div>
+
+    <script>
+        // Reading progress bar
+        const progressBar = document.getElementById('progressBar');
+        function updateProgress() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = pct + '%';
+        }
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+
+        // Scroll-triggered reveal
+        const revealEls = document.querySelectorAll('[data-reveal]');
+        const revealOpts = { root: null, rootMargin: '0px 0px -80px 0px', threshold: 0.1 };
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, revealOpts);
+        revealEls.forEach((el) => revealObserver.observe(el));
+
+        // Optional: soft sparkles
+        const sparklesEl = document.getElementById('sparkles');
+        function addSparkle() {
+            const s = document.createElement('div');
+            s.className = 'sparkle';
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.top = Math.random() * 100 + 'vh';
+            s.style.animationDelay = Math.random() * 2 + 's';
+            s.style.animationDuration = (2 + Math.random() * 3) + 's';
+            sparklesEl.appendChild(s);
+            setTimeout(() => s.remove(), 5000);
+        }
+        setInterval(addSparkle, 800);
+        for (let i = 0; i < 6; i++) setTimeout(addSparkle, i * 200);
+    </script>
+</body>
+</html>
